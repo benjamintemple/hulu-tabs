@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { data } from "../data/tabs";
 import {
   ImageContainer,
   ContentContainer,
@@ -11,11 +10,13 @@ import {
   Content,
   Title,
   Description,
+  LogoWrapper,
   FinePrint,
 } from "../styles/styled";
 
-export default function HuluTabs() {
-  const [activeTab, setActiveTab] = useState(1);
+export default function HuluTabs({ tabData }) {
+  // if (!tabData) return "Fatal: tabData is required";
+  const [activeTab, setActiveTab] = useState(0);
   const [coords, setCoords] = useState({ left: 0, width: 0 });
 
   const bgImageRef = useRef(null);
@@ -49,7 +50,6 @@ export default function HuluTabs() {
       content.transition = "all .7s ease";
       content.opacity = "1";
       content.top = "0";
-      //bgImageRef.current.src = `/${data[id].image}`;
     }, 50);
     return () => clearTimeout(timer);
   };
@@ -67,7 +67,7 @@ export default function HuluTabs() {
       <ImageContainer>
         <Image
           ref={bgImageRef}
-          src={"/" + data[activeTab].image}
+          src={"/" + tabData[activeTab].image}
           alt=""
           layout="fill"
           objectFit="cover"
@@ -78,7 +78,7 @@ export default function HuluTabs() {
       </ImageContainer>
       <ContentContainer>
         <TabContainer>
-          {data.map(({ id, text }) => (
+          {tabData.map(({ id, text }) => (
             <Tab
               active={activeTab === id}
               onClick={() => handleClick(id)}
@@ -97,8 +97,9 @@ export default function HuluTabs() {
           }}
         />
         <Content ref={contentRef}>
-          <Title>{data[activeTab].text}</Title>
-          <Description>{data[activeTab].description}</Description>
+          <Title>{tabData[activeTab].text}</Title>
+          <Description>{tabData[activeTab].description}</Description>
+          <LogoRow logos={tabData[activeTab].logos} />
           <FinePrint>
             Live TV plan required. Regional restrictions, blackouts and
             additional terms apply. <a href="#">See details</a>
@@ -108,3 +109,19 @@ export default function HuluTabs() {
     </>
   );
 }
+
+const LogoRow = ({ logos }) => {
+  {
+    return logos.map(logos => (
+      <LogoWrapper key={logos.url}>
+        <Image
+          src={logos.url}
+          alt={logos.alt}
+          width="55"
+          height="25"
+          layout="fixed"
+        />
+      </LogoWrapper>
+    ));
+  }
+};

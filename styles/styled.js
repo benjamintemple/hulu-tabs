@@ -80,7 +80,24 @@ export const Description = styled.p`
   font-weight: 300;
 `;
 
+export const Logos = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+export const LogoWrapper = styled.div`
+  background: white;
+  display: inline-flex;
+  flex-direction: row;
+  border-radius: 50%;
+  height: 55px;
+  width: 55px;
+  padding: 0.1rem;
+  margin-right: 2rem;
+  align-items: center;
+`;
+
 export const FinePrint = styled.p`
+  margin-top: 3rem;
   font-size: 0.6rem;
   color: #fff;
   opacity: 0.8;
